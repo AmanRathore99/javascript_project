@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <style>
+        table tr td {
+            border: double;
+        }
+        
+        thead tbody th {
+            border: double;
+        }
+        .c5{
+           background-image: url(admin1.jpg);
+        }
+        
+    </style>
+    
+    <script src="./admin.js"></script>
+    <div class="demo">
+    <script>
+
+
+             window.onload = function() {
+             info = new Admin(); 
+             let sinfo = info.getstudent(); 
+             loadOptions();
+             loadTable(sinfo);
+             
+               document.getElementById('btnsave').addEventListener('click', function() {
+                
+                sinfo = {
+                    StudentName: document.getElementById('txtname').value,
+                    StudentEmail: document.getElementById('txtemail').value,
+                    Gender: document.getElementById('lstgender').value,
+                    Password: document.getElementById('txtpass').value,
+                    StudentAddr: '',
+                    Certification: [],
+                    SpecialAchievements: []
+                };
+                
+              //  Delete: document.getElementById('i').value
+              
+                 var stutab = info.addStudent(sinfo);
+                 loadTable(stutab);
+                 }, true);
+                }
+
+                function loadOptions() {
+                var gender = ["Male", "Female", "Others"];
+                var opts = '<option value="0">Select Gender</option>';
+                for (var i = 0; i < gender.length; i++) {
+                    opts += '<option value="' + gender[i] + '">' + gender[i] + '</option>'
+                }
+                document.getElementById('lstgender').innerHTML = opts;
+                // dynamically setting the HTML DOM for <select></select>
+                
+            }
+            function loadTable(sinfo) {
+                var tr="";
+                sinfo.forEach((n,i) => {
+                    if(n.StudentAddr=='' && n.SpecialAchievements=='[object Object]' && n.Certification=='[object Object]'){
+                    tr += '<tr><td>' + i + '</td><td>' + n.StudentName + '</td><td>' + n.Gender + '</td><td>' + n.StudentEmail + '</td><td>' + '--' + '</td><td>'+ '--' +'</td><td>'+ '--' +'</td><td>'+"<button onclick = 'delStd("+i+")' class='btn '>Delete</button></td></tr>";
+                    }else{
+                        tr += '<tr><td>' + i + '</td><td>' + n.StudentName + '</td><td>' + n.Gender + '</td><td>' + n.StudentEmail + '</td><td>' + n.StudentAddr + '</td><td>'+ n.Certification +'</td><td>'+n.SpecialAchievements+'</td><td>'+"<button onclick = 'dt("+i+")' id = 'i' class='btn'>Delete</button></td></tr>";
+                    }
+                });
+                document.getElementById('tbody').innerHTML = tr;
+            }
+              function dt(id){
+                  sinfo = info.deletestudent(id);
+                  loadTable(sinfo);
+                  
+             }
+
+             function myFunction(){
+                //debugger;
+                let srch = document.getElementById('myInput').value;
+                //console.log(srch);
+                let test = info.searchstudent(srch);
+                let tab = info.getstudent();
+                  //console.log(tab);
+                  var tr ="";
+                  j=0;
+               // console.log(test);
+                tab.forEach((n,i)=>{     
+               if(test[j] == i){
+                   j++;
+                tr += '<tr><td>' + i + '</td><td>' + n.StudentName + '</td><td>' + n.Gender + '</td><td>' + n.StudentEmail + '</td><td>' + n.StudentAddr+ '</td><td>'+ n.Certification +'</td><td>'+n.SpecialAchievements+'</td><td>'
+               }
+            });
+            document.getElementById('tbody').innerHTML = tr;
+             //loadTable(sinfo);     
+             }
+              
+           
+function clearTable(){
+            var inputs = document.getElementById('btnnew');
+             for (i = 0; i < inputs.length; i++) {
+               inputs[i].value = ' ';
+              }
+            }
+          
+    </script>
+
+<style>
+     .btn{
+         color: blueviolet;
+         background-color: black;
+     }
+     .c2{
+         color: blueviolet;
+         background-color: black;
+     }
+     /* .c8{
+         float: right;
+     } */
+</style>
+</head>
+<body class="c5 container">
+<h1>Admin Page</h1>
+<table class="table table-dark">
+    <tr>
+        <td>Student Name</td>
+        <td>
+            <input type="text" class="form-control c1" id="txtname">
+        </td>
+    </tr>
+    <tr>
+        <td>Gender</td>
+        <td>
+            <select id="lstgender">
+            </select>
+        </td>
+    </tr>
+    <tr>
+        <td>Student Email</td>
+        <td>
+            <input type="text" class="form-control c1" id="txtemail" >
+        </td>
+    </tr>
+    <tr>
+        <td>Password</td>
+        <td>
+            <input type="password" class="form-control c1" id="txtpass" >
+        </td>
+    </tr>
+    <tr>
+        <td colspan="4">
+            <input type="button" id="btnnew" value="New" class="c2" onclick="clearTable">
+            <input type="button" id="btnsave" value="Save" class="c2">
+        </td>
+    </tr>
+    
+</table>
+<br>
+</div>
+<!-- <div class="c8">
+<label>Search</label>
+ <input type="text" name="name" id="search" ></br>
+</div>  -->
+<input type="text" id="myInput" onkeyup="myFunction();" placeholder="Search for names..">
+
+<table class="table table-hover" id = "myTable"> 
+    <thead>
+        <tr>
+            <th>Student Id</th>
+            <th>Student Name</th>
+            <th>Gender</th>
+            <th>Student Email</th>
+            <th>Student Address</th>
+            <th>Certification</th>
+            <th>Special Achievements</th>
+        </tr>
+    </thead>
+   
+    <tbody id="tbody"></tbody>
+</table>
+</body>
+</div>
+</html>

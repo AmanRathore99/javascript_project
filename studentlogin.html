@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <script src=./student.js></script>
+    
+    <script>
+        window.onload = function() {
+            var obj = new Student(); 
+            document.getElementById('btnlogin').addEventListener('click', function(){
+                var id = document.getElementById('Id').value;
+                var pass = document.getElementById('pass').value;
+                    let res = obj.stdlogin(id,pass);
+                    if (res){
+                        window.location = "./student.html"
+                    }
+                    else{
+                        alert('Please Enter Valid Id password');
+                    }
+            },true)
+        };
+    </script>
+    <style>
+        .test{
+            background-image: url(login_image.png);
+        }
+        .c3{
+            color: royalblue;
+            background-color: gainsboro;
+        }
+        .c4{
+            background-color:lightsteelblue;
+        }
+    </style>
+</head>
+
+<body class="test">
+    
+        <div style="border: 3px solid purple; margin : 50px 0px 50px 350px;" class="col-md-5 c3">
+        <h1>Student Login</h1>
+       
+                <div class="login">
+                    <label>Id</label></br>
+                    <input type="text" name="name" id="Id" placeholder="Enter Student Id" ></br>
+                    <label>Password</label></br>
+                    <input type="password" name="name" id="pass" placeholder="Enter Password"></br><br>
+                <td colspan="4">
+                    <input type="button" id="btnlogin" value="Login" class="c4">
+                </td>
+            </tr>
+</table>
+</div>
+</div>
+</body>        
+</html>

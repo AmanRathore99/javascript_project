@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+  
+    <script src=./student.js></script>
+    <script>
+         window.onload = function() {
+            var obj = new Student();
+            id= sessionStorage.getItem('id'); 
+            console.log(id);
+            info = obj.getstudent(id);
+            
+           loadTable(id, info);
+            function clear(){
+                var inputs = document.getElementById('btnnew').value;
+                for (i in inputs) {
+                     inputs[i].value = ' ';
+               }               
+            }
+            document.getElementById('btnsave').addEventListener('click', function() {
+                var student = {
+                    StudentAddr: document.getElementById('txtaddr').value,
+                    Certification:  document.getElementById('txtcerti').value,
+                    SpecialAchievements: document.getElementById('txtSA').value
+                };
+                obj.addCerti(id,student.Certification);
+                obj.addSA(id,student.SpecialAchievements);
+                obj.addAddr(id,student.StudentAddr);
+                loadTable(id, obj.getstudent(id));
+
+           }, true);
+           
+         }
+         function loadTable(id, info) {
+                n=info;
+                var tr="";
+                console.log(n);
+                    if(n.StudentAddr=='' && n.SpecialAchievements=='[object Object]' && n.Certification=='[object Object]'){
+                    tr += '<tr><td>' + id + '</td><td>' + n.StudentName + '</td><td>' + n.Gender + '</td><td>' + n.StudentEmail + '</td><td>' + '--' + '</td><td>'+ '--' +'</td><td>'+ '--' + "</td></tr>";
+                    }else{
+                        tr += '<tr><td>' + id + '</td><td>' + n.StudentName + '</td><td>' + n.Gender + '</td><td>' + n.StudentEmail + '</td><td>' + n.StudentAddr + '</td><td>'+ n.Certification +'</td><td>'+n.SpecialAchievements+"</td></tr>";
+                    } 
+                //console.log(tr);
+                document.getElementById('tbody').innerHTML = tr;
+            }
+    
+         function fun(){
+            window.location = './studentlogin.html';
+        }
+    </script>
+    <style>
+        .form{
+            margin-bottom: 5px;
+            margin-top: 5px;
+            margin-left: 5px;
+            /* text-align: center; */
+            border-bottom: 2px solid #1c87c9;
+            
+                    
+        }
+       
+         .c1{
+            color: blueviolet;
+            background-color: black;
+        }
+
+        .c6{
+            background-image: url(new_image.png);
+        }
+        .c7{
+            margin-right: 5px;
+            margin-bottom: 50px;
+            color: blueviolet !important; 
+            float: right;
+            background-color: black;
+        }
+        .d{
+            color: chartreuse;
+            float: right;
+            /* margin-left: 50px; */
+            /* margin-top: 100px; */
+            margin-left: 1000px;
+        }
+    </style>
+</head>
+<body class="c6 ">
+    <div style="border: 1px solid black "> </div>
+    <input type="button" id = "logout" value="Logout" onclick = "fun();"class="c7">
+    <h1>Student Profile</h1>
+    
+
+
+    <div class="form">
+		<label>Student Address</label></br>
+        <input type="text" name="name" id="txtaddr"></br>
+        
+        <label>Certification</label></br>
+        <input type="text" name="name" id="txtcerti"></br>
+
+        <label>Special Achievements</label></br>
+        <input type="text" name="name" id="txtSA"></br>
+        <table>
+        <tr>
+            <td colspan="4">
+                <input type="button" id="btnnew" value="New" onclick = "clear();"class="c1">
+                <input type="button" id="btnsave" value="Save" class="c1">
+            </td>
+        </tr>
+
+        <tr>
+            <td>
+
+            </td>
+        </tr>
+      </table>  
+    <br>
+</div>
+
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th>Student Id</th>
+                <th>Student Name</th>
+                <th>Gender</th>
+                <th>Student Email</th>
+                <th>Student Address</th>
+                <th>Certification</th>
+                <th>Special Achievements</th>
+            </tr>
+        </thead>
+        <tbody id="tbody"></tbody>
+    </table>
+</body>
+</html>
